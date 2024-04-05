@@ -1,0 +1,229 @@
+/* Định nghĩa font-face cho SVN-Gotham */
+@font-face {
+  font-family: 'SVN-Gotham';
+  src: url('path_to_your_font_directory/SVN-Gotham-Bold.otf'); 
+  font-weight: bold;
+  font-style: normal;
+}
+
+body {
+  font-family: "SVN-Gotham" !important;
+	font-weight: bold;
+  background-color: #00537e;
+  background-size: cover;
+}
+
+.container {
+  position: relative;
+  width: 100%;
+  height: 80vh;
+  background-color: #00537e;
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+.text-box {
+  background-color: #00537e;
+  color: #f6f6f6;
+  padding: 0.5px;
+  border-radius: 5px;
+  text-align: center;
+  font-weight: bold;
+  animation: blink 1.5s infinite;
+  font-size: 20px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+}
+#background {
+  width: 100%;      /* Chiều rộng của hình ảnh sẽ chiếm 100% của khối chứa nó */
+  height: auto;     /* Chiều cao tự điều chỉnh để giữ tỷ lệ */
+  top: 0;
+  left: 0;
+  object-fit: contain; /* Sử dụng object-fit: contain để đảm bảo rằng hình ảnh vừa vặn với không gian của nó mà không bị cắt hoặc bóp méo */
+  object-position: center center; /* Căn hình ảnh theo chính giữa (đối với cả chiều dọc và ngang) */
+  z-index: -1;
+}
+
+/* Css này sẽ áp dụng cho màn hình dọc */
+@media screen and (orientation: portrait) {
+  #background {
+    object-fit: cover; /* Khi màn hình dọc, hình ảnh sẽ che đầy khối chứa */
+  }
+
+  .container {
+    height: auto; /* Đặt chiều cao tự động cho container */
+  }
+}
+
+/* Css này sẽ áp dụng cho màn hình nằm ngang và màn hình cỡ lớn */
+@media screen and (min-width: 1024px) {
+  #background {
+    height: 100vh;   /* Đặt chiều cao của hình ảnh bằng với chiều cao viewport */
+    object-fit: contain; /* Đảm bảo rằng hình ảnh không bị cắt khi nằm ngang */
+  }
+
+  .container {
+    height: 100vh; /* Chiều cao của container bằng với chiều cao viewport */
+  }
+}
+
+  .text-box {
+    font-size: 1.25rem;
+  }
+}
+
+.upload-section {
+  position: absolute;
+  top: 300px;
+  right: 10px;
+  padding: 20px;
+  color: #00537e;
+  text-align: right;
+}
+@media screen and (max-width: 1024px) {
+  .upload-section {
+    position: static;
+    text-align: center;
+  }
+}
+
+.upload-buttons {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+@media screen and (max-width: 1024px) {
+  .upload-buttons {
+    justify-content: center;
+  }
+}
+.upload-button,
+.upload-submit,
+.addText,
+#changeBackground {
+  display: inline-block;
+  padding: 5px 5px;
+  background-color: #f5f9fb;
+  color: #00537e;
+  border: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: all 0.3s ease;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+#changeBackground {
+  visibility: hidden;
+}
+
+.upload-button:hover,
+.upload-submit:hover {
+  background-color: darkgoldenrod;
+}
+
+.upload-submit[disabled] {
+  background-color: gray;
+  cursor: not-allowed;
+}
+
+.selected-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.label {
+  font-size: 16px;
+  color: white;
+  margin-right: 10px;
+}
+
+.path {
+  font-size: 16px;
+  color: white;
+  font-style: italic;
+}
+
+.cropper-container {
+  width: 100%;
+  height: 100%;
+}
+.footer {
+  width: 100%;
+  padding: 10px;
+  background-color: #ffcc00;
+  color: #252323;
+  font-style: italic;
+  font-size: 0.9em;
+  text-align: right;
+  box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+}
+#landscape-warning h7 {
+  color: white; /* Thiết lập màu sắc của văn bản là màu trắng */
+  animation: blinkingText 1.2s infinite;
+}
+
+@keyframes blinkingText {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
+}
+/* CSS để ẩn nút "Viết thông điệp" khi trang tải lên */
+#linkToFinal {
+  display: none;
+  padding: 5px 1px;
+  background-color: #00537e;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: all 0.3s ease;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+}
+/* CSS này sẽ được áp dụng sau khi JavaScript được thực thi để hiển thị nút */
+#addtext {
+  padding: 5px 10px;
+  background-color: gold; /* MÃ u ná»n vÃ ng */
+  color: white; /* MÃ u chá»¯ tráº¯ng */
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: all 0.3s ease;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+}
+/* Định dạng modal */
+.modal {
+  display: none; /* Ẩn modal mặc định */
+  position: fixed; /* Đặt modal ở giữa màn hình */
+  z-index: 1; /* Đặt modal trên các phần tử khác */
+  left: 0;
+  top: 0;
+  width: 100%; /* Chiều rộng đầy đủ */
+  height: 100%; /* Chiều cao đầy đủ */
+  overflow: auto; /* Bật cuộn nếu cần */
+  background-color: rgb(0, 0, 0); /* Màu nền mờ */
+  background-color: rgba(0, 0, 0, 0.4); /* Màu nền mờ */
+  display: flex; /* Thêm này để căn giữa modal-content */
+  align-items: center; /* Căn giữa theo chiều dọc */
+  justify-content: center; /* Căn giữa theo chiều ngang */
+}
+
+/* Định dạng nội dung modal */
+.modal-content {
+  background-color: #fefefe; /* Màu nền vàng */
+  padding: 20px;
+  border: 1px solid #888; /* Viền xanh */
+  width: 30%; /* Chiều rộng 30% */
+  min-width: 200px; /* Chiều rộng tối thiểu 200px */
+}
