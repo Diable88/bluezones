@@ -62,43 +62,43 @@
     </div>
   </div>
 
-  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-  <script>
-    function dataURLtoBlob(dataURL)
+   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+  function dataURLtoBlob(dataURL)
+  {
+    const byteString = atob(dataURL.split(',')[1]);
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+
+    for (let i = 0; i < byteString.length; i++)
     {
-      const byteString = atob(dataURL.split(',')[1]);
-      const ab = new ArrayBuffer(byteString.length);
-      const ia = new Uint8Array(ab);
-
-      for (let i = 0; i < byteString.length; i++)
-      {
-        ia[i] = byteString.charCodeAt(i);
-      }
-
-      return new Blob([ab], { type: 'image/png' }); // Đặt kiểu MIME tương ứng với loại ảnh bạn đang sử dụng
+      ia[i] = byteString.charCodeAt(i);
     }
-  </script>
-  <script>
-    const API_NAME = "Minh";
-    const API_KEY = "MfH23WbdPEr9gkD57fzyTyvm";
-    let croppedDataURL = "";
-    const fileInput = $('#imageUpload')[0];
-    const uploadButton = $('.upload-submit');
-    const backgroundImage = $('#background')[0];
-    const isImageChosen = $('#noImageChosen');
-    const screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-    const screenHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
 
-    $(document).ready(function ()
+    return new Blob([ab], { type: 'image/png' }); // Đặt kiểu MIME tương ứng với loại ảnh bạn đang sử dụng
+  }
+</script>
+<script>
+  const API_NAME = "Dung1";
+  const API_KEY = "SG_2ce753291d46a081"; // Thay thế với API key mới cung cấp
+  let croppedDataURL = "";
+  const fileInput = $('#imageUpload')[0];
+  const uploadButton = $('.upload-submit');
+  const backgroundImage = $('#background')[0];
+  const isImageChosen = $('#noImageChosen');
+  const screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+  const screenHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+
+  $(document).ready(function ()
+  {
+    $('.upload-submit').on('click', function ()
     {
-      $('.upload-submit').on('click', function ()
-      {
-        handleUpload();
-      });
+      handleUpload();
+    });
 
-      $('#imageUpload').on('change', function ()
-      {
-        $('#cropModal').modal('show');
+    $('#imageUpload').on('change', function ()
+    {
+      $('#cropModal').modal('show');
         $('#cropModal').on('shown.bs.modal', function ()
         {
           const file = fileInput.files[0];
@@ -138,47 +138,25 @@
     });
 
     async function handleUpload()
+  {
+    uploadButton.prop('disabled', true);
+    uploadButton.text('Đang xử lý...');
+
+    const base64ImageContent = croppedDataURL.split(',')[1];
+    const jsonData = JSON.stringify({
+      image: base64ImageContent,
+      method: "object"
+    });
+
+    try
     {
-      uploadButton.prop('disabled', true);
-      uploadButton.text('Đang xử lý...');
-
-      if (croppedDataURL === "")
-      {
-        uploadButton.prop('disabled', false);
-        uploadButton.text('UPLOAD');
-        isImageChosen.removeClass('d-none');
-        return;
-      }
-      console.log(croppedDataURL);
-
-      var byteString = atob(croppedDataURL.split(',')[1]);
-      var ab = new ArrayBuffer(byteString.length);
-      var ia = new Uint8Array(ab);
-      for (var i = 0; i < byteString.length; i++)
-      {
-        ia[i] = byteString.charCodeAt(i);
-      }
-
-      // Tạo đối tượng Blob từ ArrayBuffer
-      var blob = new Blob([ab], { type: 'image/png' });
-
-      // Tạo đối tượng File từ Blob
-      var file = new File([blob], 'filename.png', { type: 'image/png' });
-
-      isImageChosen.addClass('d-none');
-      const formData = new FormData();
-      formData.append('size', 'auto');
-      formData.append('image_file', file);
-
-      try
-      {
-        const response = await axios.post('https://api.remove.bg/v1.0/removebg', formData, {
-          headers: {
-            'X-Api-Key': API_KEY,
-          },
-          responseType: 'blob',
-        });
-
+      const response = await axios.post('https://api.segmind.com/v1/bg-removal', jsonData, {
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': API_KEY
+        },
+        responseType: 'blob'
+      });
         const processedImageBlob = await response.data;
         const processedImageURL = URL.createObjectURL(processedImageBlob);
         const processedImage = new Image();
